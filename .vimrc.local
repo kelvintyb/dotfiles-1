@@ -1,0 +1,2 @@
+" Code notes
+nnoremap <Leader>cn :CtrlP ~/Google\ Drive/notes/<CR>

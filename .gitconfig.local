@@ -1,0 +1,53 @@
+[user]
+	name = Kelvin Tan
+	email = kelvin.tyb@gmail.com
+[color]
+	ui = always
+[color "branch"]
+	current = green reverse
+	local = green
+	remote = yellow
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = red
+[core]
+	editor = nano
+	excludesfile = /Users/Kelvin/.gitignore_global
+[push]
+	default = current
+[rerere]
+	enabled = false
+[pull]
+	rebase = false
+[commit]
+	template = /Users/Kelvin/.gitmessage.txt
+[alias]
+	s = status
+	sha = rev-parse HEAD
+	last = log -l HEAD
+	ll = log --oneline --decorate
+	set-master = branch --set-upstream-to=origin/master master
+	back = reset --soft HEAD~1
+	again = commit -c ORIG_HEAD
+	set-deploy = =
+	co = checkout
+	cob = checkout -b
+	ec = config --global -e
+	up = !git pull --rebase --prune
+
+	cm = !git add -A && git commit -m
+	save = !git add -A; and git commit -m "SAVEPOINT"
+	undo = reset HEAD~1 --mixed
+	amend = commit -a --amend
+	wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT'; and git reset HEAD~1 --hard
+	bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+	bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+
+	bs = branch -v
+	rs = remote -v
+	ci = commit
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	br = branch
+	st = status
+	unstage = reset HEAD --
