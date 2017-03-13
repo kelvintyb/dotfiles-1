@@ -1,8 +1,9 @@
 set encoding=utf-8
 
 " Leader
-let mapleader = " "
+map <SPACE> <leader>
 
+set nocompatible
 set backspace=2   " Backspace deletes like most programs in insert mode
 set nobackup
 set nowritebackup
@@ -16,7 +17,7 @@ set autowrite     " Automatically :write before running commands
 set modelines=0   " Disable modelines as a security precaution
 set nomodeline
 
-" Switch syntax highlighting on, when the terminal has colors
+"Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
@@ -179,3 +180,29 @@ set diffopt+=vertical
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
 endif
+
+" Make it easier to change and load vimrc in-place
+" nmap <leader>vr :sp $MYVIMRC<cr>
+nmap <leader>so :source $MYVIMRC<cr>
+nmap <leader>vr :tabedit ~/.vimrc<cr>
+
+" Easy save mode
+imap <C-s> <esc>:w<cr>
+nmap <C-s> <esc>:w<cr>
+
+" motion to go to begining of line
+nmap 0 ^
+
+" Copy the entire buffer into the system register
+nmap <leader>co ggVG*y
+
+" Set airline theme
+let g:airline_theme='kolor'
+
+" show cursor line in insert mode
+autocmd InsertEnter * set cul
+autocmd InsertLeave * set nocul
+
+" Code notes
+nnoremap <Leader>nn :CtrlP ~/Google\ Drive/notes/<CR>
+

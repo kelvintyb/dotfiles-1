@@ -42,8 +42,15 @@ Plug 'tpope/vim-rake'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
+Plug 'Valloric/YouCompleteMe'           " autocomplete
+Plug 'vim-airline/vim-airline'          " status bar
+Plug 'vim-airline/vim-airline-themes'   " nice colors for status bar
 Plug 'vim-ruby/vim-ruby'
 Plug 'vim-scripts/tComment'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'kana/vim-textobj-user'
+  Plug 'nelstrom/vim-textobj-rubyblock'
 
 if g:has_async
   Plug 'dense-analysis/ale'
