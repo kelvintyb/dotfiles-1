@@ -5,7 +5,6 @@ map <SPACE> <leader>
 
 set nocompatible
 set backspace=2   " Backspace deletes like most programs in insert mode
-set nobackup
 set nowritebackup
 set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set history=50
@@ -41,9 +40,9 @@ augroup vimrcEx
   " Don't do it for commit messages, when the position is invalid, or when
   " inside an event handler (happens when dropping a file on gvim).
   autocmd BufReadPost *
-    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
+        \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal g`\"" |
+        \ endif
 
   " Set syntax highlighting for specific file types
   autocmd BufRead,BufNewFile *.md set filetype=markdown
@@ -140,6 +139,12 @@ nnoremap <silent> <Leader>l :TestLast<CR>
 nnoremap <silent> <Leader>a :TestSuite<CR>
 nnoremap <silent> <Leader>gt :TestVisit<CR>
 
+if has('nvim')
+  let g:test#strategy = "neovim"
+  tmap <C-o> <C-\><C-n>
+endif
+
+
 " Run commands that require an interactive shell
 nnoremap <Leader>r :RunInInteractiveShell<Space>
 
@@ -165,6 +170,12 @@ nnoremap [r :ALEPreviousWrap<CR>
 
 " Map Ctrl + p to open fuzzy find (FZF)
 nnoremap <c-p> :Files<cr>
+
+" configure syntastic syntax checking to check on open as well as save
+let g:syntastic_check_on_open=1
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+let g:syntastic_eruby_ruby_quiet_messages =
+      \ {"regex": "possibly useless use of a variable in void context"}
 
 " Set spellfile to location that is guaranteed to exist, can be symlinked to
 " Dropbox or kept in Git and managed outside of thoughtbot/dotfiles using rcm.
@@ -194,10 +205,7 @@ nmap <C-s> <esc>:w<cr>
 nmap 0 ^
 
 " Copy the entire buffer into the system register
-nmap <leader>co ggVG*y
-
-" Set airline theme
-let g:airline_theme='kolor'
+nmap <leader>co ggVGy
 
 " show cursor line in insert mode
 autocmd InsertEnter * set cul
@@ -206,3 +214,66 @@ autocmd InsertLeave * set nocul
 " Code notes
 nnoremap <Leader>nn :CtrlP ~/Google\ Drive/notes/<CR>
 
+" indent whole file
+map <Leader>i mmgg=G`m
+
+" combine relative line number and actual line number for current line
+set number
+set relativenumber
+
+" search config
+set incsearch "highlight while searching
+set hlsearch "highlight all matches after search
+set ignorecase
+set smartcase
+" shortcut to clear all highlights after search
+nmap <Leader>h :nohlsearch<CR>
+
+" Surround text currently selected while in visual mode
+" (The surrounded text is kept selected after being surround)
+vmap <leader>" S"lvi"
+vmap <leader>' S'lvi'
+vmap <leader>` S`lvi`
+vmap <leader>( S)lvi(
+vmap <leader>) S)lvi(
+vmap <leader>{ S}lvi{
+vmap <leader>} S}lvi{
+vmap <leader>[ S]lvi[
+vmap <leader>] S]lvi[
+vmap <leader>< S>lvi<
+vmap <leader>> S>lvi<
+
+" enforce char limits for git commit msg
+augroup gitsetup
+  autocmd!
+
+  " Only set these commands up for git commits
+  autocmd FileType gitcommit
+        \ autocmd CursorMoved,CursorMovedI *
+        \ let &l:textwidth = line('.') == 1 ? 50 : 72
+augroup end
+
+"set table mode vim to use markdown row separator
+let g:table_mode_corner='|'
+
+" Typo aliases
+:command! WQ wq
+:command! Wa wa
+:command! Wq wq
+:command! W w
+:command! Q q
+
+" When navigating through searches, center them.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+if has('nvim')
+  let g:deoplete#enable_at_startup = 1
+else
+  " for neocomplete autocomplete
+  let g:neocomplete#enable_at_startup = 1
+endif
+
+set background=dark
+" Set airline theme
+let g:airline_theme='kolor'
